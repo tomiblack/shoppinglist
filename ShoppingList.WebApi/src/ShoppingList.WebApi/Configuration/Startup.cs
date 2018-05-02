@@ -12,6 +12,7 @@ namespace ShoppingList.WebApi.Configuration
 {
     public sealed class Startup
     {
+        private const string CorsPolicyAllowAll = "AllowAll";
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _environment;
 
@@ -49,6 +50,8 @@ namespace ShoppingList.WebApi.Configuration
                 options.SwaggerDoc("v1", new Info { Title = "ShoppingList Api", Version = "v1" });
                 options.DescribeAllEnumsAsStrings();
             });
+
+            services.AddCors(options => options.AddPolicy(CorsPolicyAllowAll, p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,13 +61,13 @@ namespace ShoppingList.WebApi.Configuration
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseCors(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             }
             else
             {
                 app.UseExceptionHandler();
             }
 
+            app.UseCors(CorsPolicyAllowAll);
             app.UseHttpStatusCodeExceptionMiddleware();
             app.UseMvc();
 

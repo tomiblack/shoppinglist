@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('peabody App', () => {
+describe('shopping list App', () => {
   let page: AppPage;
 
   beforeEach(() => {
